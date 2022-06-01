@@ -1,4 +1,4 @@
-class Jukebox {
+class Player {
     constructor(albums) {
         this.albums = [];
     }
@@ -14,6 +14,9 @@ class Jukebox {
             }
         }
         return fav.display();
+    }
+    returnAlbum = function(num) {
+        return this.albums[num];
     }
 }
 
@@ -31,21 +34,31 @@ class Album {
     }
 }
 
-var jbox = new Jukebox();
-const album1 = new Album('Operation Ivy', 'Energy');
-const album2 = new Album('Blink 182', 'Dude Ranch');
-const album3 = new Album('New Found Glory', 'Sticks and Stones');
+const player = new Player();
+const albumList = [
+    ['Blink 182', 'Dammit'],
+    ['Jawbreaker', 'Want'],
+    ['New Found Glory', 'Hit or Miss'],
+    ['Teen Idols', 'Backstabber'],
+    ['Teenage Bottlerocket', 'On My Own']];
+let albums      = document.getElementById('albums');
+let play        = document.getElementById('play');
+let showFav     = document.getElementById('favorite');
+let displayFav  = document.getElementById('favoriteAlbum');
 
-jbox.addAlbum(album1);
-jbox.addAlbum(album2);
-jbox.addAlbum(album3);
+for (let i = 0; i < albumList.length; i += 1) {
+    player.addAlbum(new Album(albumList[i][0],
+    albumList[i][1]));
+    albums.add(new Option(albumList[i][0] + ' : ' + albumList[i][1], i));
+}
 
-album1.play();
-album2.play();
-album2.play();
-album2.play();
-album2.play();
-album2.play();
-album3.play();
+play.addEventListener('click', () => {
+    player.returnAlbum(albums.value).play();
+    console.log(player.returnAlbum(albums.value).display());
+});
 
-console.log(`Your favorite album is: ${jbox.favoriteAlbum()}`);
+showFav.addEventListener('click', () => {
+    displayFav.innerHTML = player.favoriteAlbum();
+});
+
+
